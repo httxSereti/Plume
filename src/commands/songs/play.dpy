@@ -1,0 +1,55 @@
+
+import asyncio
+import nextcord
+import os
+
+
+from nextcord import Interaction, slash_command, SlashOption, Member
+from nextcord.ext.commands import Cog
+
+from bot import Bot
+
+from pprint import pprint
+
+
+class PlayCommand(Cog):
+    import torch
+    from TTS.api import TTS
+
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    # tts_models/en/ljspeech/glow-tts
+    tts = TTS("tts_models/en/ljspeech/glow-tts").to(device)
+    
+    def __init__(self, bot: Bot):
+        self.bot = bot
+
+    @slash_command(
+        name="play",
+        description="Play a song",
+    )
+    async def play(
+        self,
+        interaction: Interaction,
+        text: str,
+        channel: nextcord.channel.VoiceChannel = SlashOption(name="channel", description="The channel you want to use", required=True)  
+    ):
+        await interaction.send(f"<@{interaction.user.id}> connecting to <#{channel.id}>.")
+        
+        tts.tts_to_file(text=text, file_path="gen.wav")
+        
+        try:
+            
+            source = await nextcord.FFmpegOpusAudio.from_probe("gen.wav", method='fallback')
+            voiceClient = await channel.connect()
+            print('playing...')
+            # pprint(source)
+            voiceClient.play(source)
+            print('played...')
+        except Exception as err:
+            print(err)
+        
+        
+        # voiceClient.play(nextcord.FFmpegPCMAudio("resources/love.mp3"))
+
+def setup(bot: Bot):
+    bot.add_cog(PlayCommand(bot))
