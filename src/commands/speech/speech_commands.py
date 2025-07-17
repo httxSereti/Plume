@@ -181,7 +181,7 @@ class SpeechCommands(Cog):
     async def on_message(self, message: nextcord.Message):
         if message.author.id == self.bot.user.id or self.bannedWords is None:
             return
-        
+                
         bannedWords = self.bannedWords[message.author.id]
 
         if bannedWords is None:

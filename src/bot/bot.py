@@ -19,7 +19,7 @@ class Bot(NextcordBot):
             help_command=None
         )
         
-        self.initialised = False
+        self.initialized = False
         self.logger = Logger("bot", "logs/bot.log", print_level=logging.DEBUG)
         self.loaded_cogs: dict[str, int] = {} # {cog path: last modified time}
         
@@ -43,19 +43,14 @@ class Bot(NextcordBot):
             await interaction.send(embed=embed, ephemeral=True)
             
         else:
-            self.logger.error("An unexpected error occured")
+            self.logger.error("An unexpected error occurred")
             self.logger.error(interaction.user, f"({interaction.user.id})")
             self.logger.exception(exception)
             
-            embed = Embed(title="An unexpected error occured", color=Color.red(), timestamp=datetime.now())
+            embed = Embed(title="An unexpected error occurred", color=Color.red(), timestamp=datetime.now())
             await interaction.send(embed=embed, ephemeral=True)
             
     async def handle_task_error(self, exception: Exception, task: str):
         if not isinstance(exception, DiscordServerError):
-            self.logger.error(f"An unexpected error occured in task `{task}`")
+            self.logger.error(f"An unexpected error occurred in task `{task}`")
             self.logger.exception(exception)
-
-    
-    
-    
-    

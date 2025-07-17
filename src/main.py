@@ -9,7 +9,6 @@ from utils.shared_functions import get_cogs
 
 
 def main():
-    
     # Create the logs folder if it doesn't exist
     if not os.path.exists("logs"):
         os.mkdir("logs")
