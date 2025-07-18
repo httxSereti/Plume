@@ -46,7 +46,5 @@ def main():
         bot.logger.exception(e)
         exit(1)
     
-
 if __name__ == "__main__":
     main()
-

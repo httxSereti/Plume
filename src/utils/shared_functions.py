@@ -113,7 +113,7 @@ def file_to_module(root: str, filepath: str) -> str:
     :class:`str`
         The module path
     """
-    return _os.path.join(root, filepath).removesuffix(".py").replace("src\\", "").replace("\\", ".").replace("/", ".")
+    return _os.path.join(root, filepath).removesuffix(".py").replace("src/", "").replace("\\", ".").replace("/", ".")
 
 
 def module_to_file(filepath: str) -> str:
@@ -140,8 +140,7 @@ def get_cogs():
     :class:`set`
         The set of all the cogs
     """
-    paths: list(str) = ["src\\commands", "src\\jobs", "src\\events"]
-    # paths: list(str) = ["commands", "events", "jobs"]
+    paths: list(str) = ["src/commands", "src/jobs", "src/events"]
     loadExceptions: list(str) = []
     
     cogs = set()
@@ -150,10 +149,6 @@ def get_cogs():
             if not root.startswith("__"):
                 for file in files:
                     if file.endswith(".py"):
-                        # print(f"{root} - {file}")
                         cogs.add(file_to_module(root, file))
                         
     return cogs
-
-
-
